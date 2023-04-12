@@ -1,17 +1,14 @@
 import numpy as np
 import heapq as hq
 
-#Mirar que pasa si queda una hoja suelta, sin vecino
-
 class HuffmanBinaryTree:
 
     def __init__(self, word_prob_dict):
         self.word_proc_dict = word_prob_dict
-        self.word_code_dict = None
         self.leaves = {key: HuffmanBinaryNode(value, key) for key, value in word_prob_dict.items()}
 
         self.root = build_tree_from_leaves()
-        geenrate_codes()
+        generate_codes()
 
     class HuffmanBinaryNode:
 
@@ -23,12 +20,12 @@ class HuffmanBinaryTree:
             self.code = None
 
         def __lt__(self, other):
-            return self.probability < other.probability
+            return self.probability < other.get_probability()
 
         def is_leaf(self):
-            return right is not None and left is not None
+            return right is None and left is None
 
-        def get_prob(self):
+        def get_probability(self):
             return self.probability
 
         def set_right(self, right):
@@ -46,17 +43,22 @@ class HuffmanBinaryTree:
         def set_code(self, code)
             self.code = code
 
+        def get_code(self)
+            return self.code
+
     def build_tree_from_leaves(self):
         node_heap = list(leaves.values())
-        node_heap = hq.heapify(node_heap)
+        hq.heapify(node_heap)
 
         min_node = hq.heappop(node_heap)
         while len(node_heap) > 0:
-            next_min_node = h1.heappop(node_heap)
+            next_min_node = hq.heappop(node_heap)
             new_node = HuffmanBinaryNode(min_node.get_probability() + next_min_node.get_probability())
 
             new_node.set_right(min_node)
             new_node.set_left(next_min_node)
+
+            hq.heappush(node_heap, new_node)
 
         return min_node
 
@@ -68,7 +70,11 @@ class HuffmanBinaryTree:
             root.set_code(code)
             return
 
+        #Both children should exist as there can be no unused leaves
         generate_code(root.get_right(), code + "0")
         generate_code(root.get_left(), code + "1")
+
+    def get_codes(self):
+        return {key: value.get_code() for key, value in self.leaves}
 
     
