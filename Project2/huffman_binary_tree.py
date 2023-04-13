@@ -19,6 +19,7 @@ class HuffmanBinaryTree:
             self.left = None
             self.code = None
 
+        #We order the nodes of the tree based on their probability
         def __lt__(self, other):
             return self.probability < other.get_probability()
 
