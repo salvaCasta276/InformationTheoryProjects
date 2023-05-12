@@ -33,6 +33,7 @@ if __name__ == '__main__':
 
     ### 1st test
     P1 = np.transpose(np.array([np.arange(0.0,1.1,0.25)]))
+    print(P1)
     H1 = IT.Entropy(P1)
     print("H1 =",H1)
 
